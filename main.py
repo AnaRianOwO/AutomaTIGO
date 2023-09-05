@@ -588,7 +588,7 @@ def eliminarDataframesAntiguos():
     carpetaSOW = carpeta["dataframes"]+ "SOW/"
 
     fechaHoy = date.today()
-    SemanaPasada = fechaHoy - timedelta(month=1)
+    SemanaPasada = fechaHoy - timedelta(weeks=4)
 
     def eliminarDataframes(carpeta):
         for archivo in os.listdir(carpeta):
@@ -640,7 +640,7 @@ def mostrarComparacion(dataframe1, dataframe2, opcion):
     n.add(hoy, text='Hoy')
     hoyText = ""
     for index, row in dataframe1.iterrows():
-    # La comparación se hace tanto para OPP como para Backlog, por eso se pregunta por la opción
+    # La comparación se hace tanto para OPP como para Backlog y Clientes, por eso se pregunta por la opción
         if opcion == 1:
             hoyText += f"{row['Tipo Producto']} -- {row['Ejecutivo']} -- {row['Cliente']} -- {row['Suma de Precio sin IVA']}\n"
         elif opcion == 2:

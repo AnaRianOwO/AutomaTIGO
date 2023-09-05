@@ -1,5 +1,6 @@
 # Carpeta de data
 data/
+data.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
