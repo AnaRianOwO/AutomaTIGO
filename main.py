@@ -21,6 +21,7 @@ import ttkbootstrap as ttb # Para los diseños de la interfaz gráfica
 from ttkbootstrap.scrolled import ScrolledFrame # Para crear un frame con scroll
 import math # Para redondear los números
 from pynput import mouse # Para obtener las coordenadas de la pantalla
+import platform # Para saber el sistema operativo
 
 
 # Variables
@@ -46,7 +47,9 @@ link = jsonData['link']
 hoja = jsonData['hoja']
 tabla = jsonData['tabla']
 saludo = jsonData['saludo']
-tiempoEspera = jsonData['tiempoEspera'] 
+tiempoEspera = jsonData['tiempoEspera']
+so = jsonData['SO']
+sistemaOperativo = platform.system()
 
 # Funciones primarias
 
@@ -334,16 +337,16 @@ def grafico(dataframe):
 
     df = dataframeSIMPL.groupby(columna["tipoProducto"]).sum()
     df_values = df[columna["precioSinIva"]].astype(float)
-    grafico = df.plot(kind='bar')
+    grafico = df.plot(kind='barh', figsize=(10, 10), color='#86bf91', zorder=2, width=0.85)
 
     for i, v in enumerate(df_values.values):
         formatted_value = '{:,.2f}'.format(v) 
-        grafico.text(i, v, formatted_value, ha='center', va='bottom')
+        grafico.text(v, i, formatted_value, ha='left', va='center')
+        
+    grafico.set_xlabel(columna["precioSinIva"])
 
-    grafico.set_ylabel(columna["precioSinIva"])
-
-    eje_y = grafico.get_yaxis()
-    eje_y.set_visible(False)
+    eje_x = grafico.get_xaxis()
+    eje_x.set_visible(False)
     
     return grafico
 
@@ -356,11 +359,12 @@ def graficarCOMP(hoy, SP):
     return hoy, semanaPasada
 
 def abrirArchivo(nombreArchivo):
+    
     try:
-        if nombreArchivo[-4:] == "json":
-            subprocess.run(['start', 'notepad', nombreArchivo], shell=True)
+        if nombreArchivo.endswith(".json"):
+            subprocess.run([so[sistemaOperativo]["subprocess.run"], so[sistemaOperativo]["notas"], nombreArchivo])
         else:
-            subprocess.run(['start', nombreArchivo], shell=True)
+            subprocess.run([so[sistemaOperativo]["subprocess.run"], nombreArchivo])
         mostrarMensaje(f"Se ha abierto el archivo {nombreArchivo} exitosamente")
     except FileNotFoundError:
         mostrarMensaje(f"No se pudo abrir el archivo {nombreArchivo}. Verifica el nombre y la ruta.")
@@ -368,7 +372,7 @@ def abrirArchivo(nombreArchivo):
 def abrirCarpeta(rutaCarpeta):
     ruta = os.path.realpath(rutaCarpeta)
     try:
-        subprocess.run(['explorer', ruta], shell=True)
+        subprocess.run([so[sistemaOperativo]["carpeta"], ruta], shell=True)
         mostrarMensaje("Se ha abierto la carpeta de informes exitosamente")
     except FileNotFoundError:
         mostrarMensaje(f"No se pudo abrir la carpeta {ruta}. Verifica la ruta.")

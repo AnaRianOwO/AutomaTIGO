@@ -11,6 +11,8 @@ A continuación se detallan los pasos para la instalación y uso de la herramien
   - [Requisitos](#requisitos)
     - [Hardware](#hardware)
     - [Software](#software)
+  - [Mac OS o Linux](#mac-os-o-linux)
+    - [Pyinstaller](#pyinstaller)
 - [Antes de empezar](#antes-de-empezar)
 - [Data.json](#datajson)
   - [Coordenadas](#coordenadas)
@@ -36,7 +38,7 @@ Para la instalación de la herramienta se deben seguir los siguientes pasos:
 1. Descargar el archivo comprimido del repositorio.
     1. Para ello se debe dar clic en el botón verde que dice "Code" y luego en "Download ZIP".
     2. Otra opción es dar clic en el siguiente enlace: [Descargar ZIP](https://github.com/AnaRianOwO/automaTIGO/archive/refs/heads/main.zip)
-    3. Oprimir la opción de "Releases" a la derecha de la página y luego en "main.zip (zip)".
+    3. Oprimir la opción de "Releases" a la derecha de la página y luego en "main.zip (zip)". Descargue el archivo que más le convenga, ya sea el comprimido o el ejecutable.
 2. Descomprimir el archivo en la carpeta deseada.
 3. En el caso de que se esté descargando para utilizarlo en la empresa de TIGO, se debe solicitar la carpeta de "data", esta contiene los datos necesarios para que funcione en la compañía.
 4. Para que funcione el aplicativo se debe ejecutar el archivo "main.exe" para utilizarlo.
@@ -52,12 +54,32 @@ Para la instalación de la herramienta se deben seguir los siguientes pasos:
 
 ### Software
 
-- Windows 10 (64 bits).
+- Windows 10 (64 bits) (si se desea usar el ejecutable, pero el código fuente funciona en cualquier sistema operativo).
 - Python 3.11 (si se desea ejecutar el código fuente).
 - Google Chrome 87 (64 bits) u Opera GX LVL5.
 - Excel 2016 (32 bits).
 - Visual Studio Code 1.52 (si se desea ejecutar el código fuente).
 - Git 2.30 (si se desea ejecutar el código fuente y contribuir al proyecto).
+
+## Mac OS o Linux
+
+El sistema está principalmente enfocado a Windows, por lo que si se desea utilizar en Mac OS o Linux se debe tener en cuenta lo siguiente:
+
+1. Descargar Python 3.11. y Visual Studio Code 1.52.
+2. Clonar o descargar el repositorio en la carpeta deseada.
+3. Ejecutar el comando `pip install -r requirements.txt` para instalar las librerías necesarias.
+4. Ejecutar el archivo "main.py" para utilizar la herramienta.
+5. En caso de que se desee agregar el ejecutable de Mac OS o Linux, seguir las recomendaciones de [Pyinstaller](#pyinstaller).
+
+### Pyinstaller
+
+Para crear el ejecutable de Mac OS o Linux se debe seguir los siguientes pasos:
+
+1. Tener el código fuente en la carpeta deseada.
+2. La librería de Pyinstaller se descarga con los requerimientos, por lo que no es necesario instalarla.
+3. Ejecutar el comando `pyinstaller --onefile main.py` para crear el ejecutable.
+4. Se creará una carpeta llamada "dist" en donde se encontrará el ejecutable.
+5. Subir el ejecutable al apartado de "Releases" del repositorio. Para ello ir a editar el último release y subir el ejecutable en la parte de "Assets".
 
 # Antes de empezar
 Antes de empezar a utilizar la herramienta se deben tener en cuenta los siguientes aspectos:
@@ -79,7 +101,7 @@ De ser posible guardar la contraseña en el navegador predeterminado, no es una 
 
 2. Coordenadas: Una vez iniciada la sesión de salesforce es momento de definir las coordenadas según la pantalla, se recomienda que el navegador esté en pantalla completa para que los links se abran de dicha manera siempre. Al momento de ejecutar la función se recomienda no utilizar el mouse sino para las coordenadas, ya que se puede afectar el funcionamiento de la herramienta.
 
-  Al momento de ejecutar la función seguir los siguientes pasos:
+  Al momento de ejecutar la función debe seguir los siguientes pasos inmediatamente:
 
    1. Dar clic en el botón de "Actualizar".
 
@@ -113,17 +135,27 @@ De ser posible guardar la contraseña en el navegador predeterminado, no es una 
 
 Es importante solamente realizar esta serie de clic para el correcto funcionamiento del aplicativo, después de estos clics oprimir **alt + tab** y esperar al mensaje de "Coordenadas actualizadas correctamente" en el apartado de Log.
 
-3.  Carpeta de descargas: Se debe definir cómo se llama la carpeta de descargas por defecto del computador, solamente selecciona la carpeta que se desee y dar clic en aceptar. Teniendo en cuenta esta carpeta es que se extraen los informes descargados de Salesforce.
+3.  Carpeta de descargas: Se debe definir cómo se llama la carpeta de descargas por defecto del computador, solamente selecciona la carpeta que se desee y dar clic en aceptar. Teniendo en cuenta esta carpeta es que se extraen los informes descargados de Salesforce. Esta carpeta se puede cambiar en el navegador predeterminado, en el caso de Google Chrome se puede hacer en la siguiente ruta: "chrome://settings/downloads", pero es recomendable dejarlo en la carpeta de descargas por defecto.
 
 ![Carpeta de descargas](img/seleccionarCarpeta.png)
 
-4. Variables: Una vez definidas las coordenadas siguen las variables, estas se encuentran en el archivo data.json, para más información ver [Data.json](#datajson).
+1. Variables: Una vez definidas las coordenadas siguen las variables, estas se encuentran en el archivo data.json, para más información ver [Data.json](#datajson). En el caso que se desee cambiar una variable este sería el momento, de lo contrario se puede omitir esta función; sin embargo, es recomendable revisar que exista el archivo antes de iniciar a utilizar la herramienta.
 
-5. Configurar Excel: Esta función abre el archivo correspondiente a DRB, para poder conectar con la API de salesforce es necesario que se inicie sesión, para ello simplemente seguir los pasos que solicite excel.
+2. Configurar Excel: Esta función abre el archivo correspondiente a DRB, para poder conectar con la API de salesforce es necesario que se inicie sesión, para ello seguir los siguientes pasos:
+   
+   1. Dirigirse a la pestaña de "Consulta" y dar clic en "Actualizar".
+   2. Se abrirá una ventana en donde se debe dar clic en "Iniciar sesión".
+   3. Se abrirá una página de Salesforce en donde se debe iniciar sesión con el usuario y la contraseña. Se debe colocar la url adicional de la página de Salesforce, en este caso es **tigob2b**.
+   4. Después, pedirá el usuario y contraseña o iniciar sesión por DA, seleccionar la opción que aplique.
+   5. Iniciar sesión normalmente con el usuario y la contraseña.
+   6. Se abrirá una página en donde se debe dar clic en "Permitir".
+   7. Con esto se habrá iniciado sesión y se podrá utilizar la herramienta en Excel.
 
-6. Configurar carpeta de data: Esta función lo que hace es abrir la carpeta de "data" para que se pueda acceder a los archivos que se necesitan para el funcionamiento de la herramienta. En el caso de que no exista dicha carpeta se debe solicitar a la persona encargada de la herramienta. Si desean cambiar de lugar la carpeta tener en cuenta de poner dicha ruta en el archivo "data.json".
+3. Configurar carpeta de data: Esta función lo que hace es abrir la carpeta de "data" para que se pueda acceder a los archivos que se necesitan para el funcionamiento de la herramienta. En el caso de que no exista dicha carpeta se debe solicitar a un compañero que cuente con la carpeta. Si desean cambiar de lugar la carpeta tener en cuenta de poner dicha ruta en el archivo "data.json".
 
-Después de esto se puede comenzar a utilizar la herramienta, para más información ver [Uso](#uso).
+![Carpeta de data](img/carpetaData.png)
+
+Se debe cerrar el aplicativo y volver a ejecutar para que todos los nuevos datos se guarden para el siguiente uso. Después de esto se puede comenzar a utilizar la herramienta, para más información ver [Uso](#uso).
 
 # Data.json
 
@@ -157,6 +189,18 @@ Al acceder al archivo "data.json" se encuentran varias categorías, cualquiera d
   
 ![Imagen de cómo se ven las variables de las tablas](img/tablas.png)
 
+- **saludo:** Esta contiene los mensajes que se envían con los datos copiados en el portapapeles.
+
+![Imagen de cómo se ven las variables de los saludos](img/saludos.png)
+
+- **tiempoEspera:** Esta contiene todo los definidos de cada vez que se utiliza la función de sleep, es decir, el tiempo que se espera para que se cargue una página, se descargue un archivo o se copie un dato en el portapapeles.
+  
+![Imagen de cómo se ven las variables de los tiempos de espera](img/tiempoEspera.png)
+
+- **so:** Esta contine los nombres de los sistemas operativos que se utilizan en la herramienta. Esto para funcionar correctamente con la librería de subprocess y abrir los archivos en el sistema operativo que se esté utilizando.
+
+![Imagen de cómo se ven las variables de los sistemas operativos](img/so.png)
+
 ## Coordenadas
 
 Este archivo está separado para mejorar la visualización de las coordenadas.
@@ -170,6 +214,8 @@ También, para más comodidad, solamente utilizar la función de antes de empeza
 ![Imagen de cómo se ven las variables de las coordenadas](img/coordenadas.png)
 
 # Uso
+En el caso de que se cuente con algún tipo de antivirus, es probable que se muestre una ventana de advertencia, en este caso se debe dar clic "Ejecutar de todas formas". Esto se debe a que el aplicativo no está firmado, por lo que el antivirus no lo reconoce como un aplicativo seguro. Esto no ocurre si se utiliza el código fuente, ya que no se ha compilado.
+
 Al momento de utilizar la aplicación, terminando de configurar todas las variables de data.json, se ejecutará el archivo main.exe y se abrirá la siguiente ventana:
 
 ![Imagen de la ventana de ejecución](img/ventanaInicio.png)
@@ -177,6 +223,8 @@ Al momento de utilizar la aplicación, terminando de configurar todas las variab
 Después de esperar un momento ya se habrá ejecutado el aplicativo y se abrirá el respectivo aplicativo:
 
 ![Imagen de la ventana principal](img/ventanaPrincipal.png)
+
+Si es la primera vez que se utiliza es indispensable hacer todo el proceso de [Antes de empezar](#antes-de-empezar), ya que si no se hace no se podrá utilizar la herramienta correctamente. Una vez se haya hecho este proceso se puede comenzar a utilizar la herramienta, después de cerrar y volver a abrir el aplicativo no será necesario hacer el proceso de antes de empezar.
 
 ## Interfaz
 La interfaz de la herramienta se divide en 4 partes:
@@ -225,14 +273,13 @@ Al momento de ejecutar el aplicativo se abrirá la ventana principal, en esta se
 - **Productos en -:** Esta función lo que hace es acceder a la tabla dinámica que muestra los datos de los productos que están en -, después se copian los datos y se muestran en el apartado de "Datos".
 
 ![Productos en -:](img/productosEn-.jpg)
-  
-- **Crear dataframe OPP por producto:** Esta función lo que hace es acceder a la tabla dinámica que muestra los datos generales de las oportunidades, luego los extrae y los guarda en un archivo .pkl como un dataframe para luego compararlo.
 
-![Crear dataframe OPP por producto](img/crearDataframeOpp.png)
+- **Mostrar comparación OPP general:** Esta función trae el dataframe del día de hoy y otro archivo que el usuario seleccione para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación". Además de que realiza dos gráficas que se muestran por fuera del aplicativo con el total de cada tipo de producto.
 
-- **Mostrar comparación OPP general:** Esta función trae el dataframe del día de hoy y de la semana pasada para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación". Además de que realiza dos gráficas que se muestran por fuera del aplicativo con el total de cada tipo de producto.
+![Selección de archivos](img/seleccionarArchivo.png)
 
 ![Mostrar comparación OPP general](img/graficos.png)
+Los datos de los gráficos no se muestran en la imagen por seguridad. Prometo que si hay datos en los gráficos.
 
 El botón de Hoy muestra los datos que aparecieron hoy y no estaban la semana pasada, mientras que el botón de Semana pasada muestra los datos que aparecieron la semana pasada y no están hoy.
 
@@ -250,11 +297,11 @@ El botón de Hoy muestra los datos que aparecieron hoy y no estaban la semana pa
 
 ![Actualizar backlog (sin el archivo descargado)](img/actualizarBacklog.png)
 
-- **Crear dataframe Backlog:** Esta función lo que hace es acceder a la tabla dinámica que muestra los datos generales de las oportunidades en Backlog, luego los extrae y los guarda en un archivo .pkl como un dataframe para luego compararlo.
-
-![Crear dataframe Backlog](img/crearDataframeBacklog.png)
-
 - **Mostrar comparación Backlog:** Esta función trae el dataframe del día de hoy y de la semana pasada para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
+
+![Selección de archivos](img/seleccionarArchivo.png)
+
+Aquí también se puede seleccionar con qué archivo se desea comparar, en el caso de que se desee comparar con un archivo que no sea el de la semana pasada.
 
 ![Comparación Hoy Backlog](img/hoyBacklog.jpg)
 ![Comparación Semana pasada Backlog](img/semanaPasadaBacklog.jpg)
@@ -265,9 +312,13 @@ El botón de Hoy muestra los datos que aparecieron hoy y no estaban la semana pa
 
 ![Account Plan](img/accountPlan.png)
 
+- **Mostrar comparación Account Plan:** Esta función trae el dataframe del día de hoy permite que el usuario seleccione otro para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
+
 - **SoW:** Esta función lo que hace es actualizar la tabla que trae los datos del mismo salesforce, se extraen los datos de los clientes con -70% y se muestra en el apartado de "Datos". Esta función abre automáticamente el archivo por lo que no habrá necesidad de abrirla manualmente. Es importante que al momento de descargar el archivo no se manipule el mouse, ya que se puede afectar el funcionamiento de la herramienta.
 
 ![SoW](img/sow.jpg)
+
+- **Mostrar comparación SoW:** Esta función trae el dataframe del día de hoy permite que el usuario seleccione otro para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
 
 ### Opciones
 
@@ -275,13 +326,13 @@ El botón de Hoy muestra los datos que aparecieron hoy y no estaban la semana pa
 
 - **Manual de usuario:** Esta función lo que hace es abrir el archivo PDF que contiene el Manual de usuario de la herramienta, es decir, este archivo.
 
+- **Antes de empezar:** Esta función lo que hace es abrir el archivo PDF que contiene el Manual de automatización de la herramienta, es decir, el manual que explica cómo hacer el paso a paso de nuevas automatizaciones. Además, de mostrar un breve resumen de lo que se debe hacer antes de comenzar a utilizar la herramienta.
+
 - **Eliminar dataframes antiguos:** Esta función lo que hace es eliminar los archivos .pkl mayores a una semana de creación, esto se hace para que no se acumulen y ocupen espacio en el disco duro. Para guardar dataframes específicos se pueden guardar en otra carpeta.
 
 - **Abrir carpeta de informes:** Esta función lo que hace es abrir la carpeta donde se guardan los informes de OPP y Backlog, es decir, la carpeta de "data" completa.
 
 - **Cambiar variables del programa:** Esta función lo que hace es abrir el archivo "data.json" para que se puedan cambiar las variables que se necesiten.
-
-- **Antes de empezar:** Esta función lo que hace es abrir el archivo PDF que contiene el Manual de automatización de la herramienta, es decir, el manual que explica cómo hacer el paso a paso de nuevas automatizaciones. Además, de mostrar un breve resumen de lo que se debe hacer antes de comenzar a utilizar la herramienta.
 
 - **Repositorio:** Esta función lo que hace es abrir el repositorio de GitHub donde se encuentra el código de la herramienta. Es muy probable que hayas utilizado esa función para llegar acá (aunque bueno, si esto es un PDF puede que no).
 
