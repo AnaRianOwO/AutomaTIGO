@@ -281,6 +281,9 @@ def guardarDataframe(inf, rutaInforme, nombreHoja, nombreTablaDinamica):
     if datos.empty:
         mostrarMensaje("No se ha extraído la información del archivo. Revisa el mensaje anterior")
         return
+    
+    if inf == "OPP":
+        datos[columna["precioSinIva"]] = datos[columna["precioSinIva"]].round(1)
 
     fecha = date.today()
     directorio = carpeta["dataframes"]+inf+"/"
@@ -304,10 +307,11 @@ def guardarDataframe(inf, rutaInforme, nombreHoja, nombreTablaDinamica):
     return mensaje
 
 def traerArchivosParaComparar(inf):
-    fechaHoy = date.today()
+    #fechaHoy = date.today()
     file = carpeta["dataframes"]
 
-    archivoHoy = f"{file}{inf}/{fechaHoy}.pkl"
+    #archivoHoy = f"{file}{inf}/{fechaHoy}.pkl"
+    archivoHoy = f"{file}{inf}/2023-08-31.pkl"
     archivoSP = filedialog.askopenfilename(initialdir=file+inf, title="Selecciona el archivo que desees comparar", filetypes=(("Pickle files", "*.pkl"), ("all files", "*.*")))
 
     if not os.path.exists(archivoHoy):
@@ -505,7 +509,9 @@ def SoW():
     return diccionario, mensaje
 
 def comparacionOPP():
-    guardarDataframe("OPP", archivos["Informe OPP general"], hoja["General"], tabla["General"])
+    fechaHoy = date.today()
+    if not os.path.exists(carpeta["dataframes"]+"OPP/"+str(fechaHoy)+".pkl"):
+        guardarDataframe("OPP", archivos["Informe OPP general"], hoja["General"], tabla["General"])
     hoy, sp = traerArchivosParaComparar("OPP")
     if hoy.empty or sp.empty:
         mostrarMensaje("No se encontraron archivos para comparar. Revisa el mensaje anterior")
@@ -514,11 +520,11 @@ def comparacionOPP():
     plt.show()
     
     dfh = hoy.merge(sp, how='outer', indicator='union')
-    dfh = dfh[dfh.union=='left_only'].sort_values(by=[columna["precioSinIva"]])
+    dfh = dfh[dfh.union=='left_only'].sort_values(by=[columna["precioSinIva"]], ascending=False)
     dfh = dfh[[columna['tipoProducto'], columna['ejecutivo'], columna['cliente'], columna['precioSinIva']]]
 
     dfsp = sp.merge(hoy, how='outer', indicator='union')
-    dfsp = dfsp[dfsp.union=='left_only'].sort_values(by=[columna["precioSinIva"]])
+    dfsp = dfsp[dfsp.union=='left_only'].sort_values(by=[columna["precioSinIva"]], ascending=False)
     dfsp = dfsp[[columna['tipoProducto'], columna['ejecutivo'], columna['cliente'], columna['precioSinIva']]]
 
     mostrarMensaje("Se ha creado la comparación de OPP exitosamente")
@@ -536,7 +542,9 @@ def DRB():
     return diccionario, mensaje
 
 def comparacionBL():
-    guardarDataframe("BL", archivos["Informe Backlog"], hoja["BL"], tabla["BL"])
+    fechaHoy = date.today()
+    if not os.path.exists(carpeta["dataframes"]+"BL/"+str(fechaHoy)+".pkl"):
+        guardarDataframe("BL", archivos["Informe Backlog"], hoja["BL"], tabla["BL"])
     hoy, sp = traerArchivosParaComparar("BL")
 
     if hoy.empty or sp.empty:
@@ -557,7 +565,9 @@ def comparacionBL():
     return dfh, dfsp
 
 def comparacionClientes(tipo, archivo, hojaCli, tablaCli):
-    guardarDataframe(tipo, archivo, hojaCli, tablaCli)
+    fechaHoy = date.today()
+    if not os.path.exists(carpeta["dataframes"]+tipo+"/"+str(fechaHoy)+".pkl"):
+        guardarDataframe(tipo, archivo, hojaCli, tablaCli)
     hoy, sp = traerArchivosParaComparar(tipo)
 
     if hoy.empty or sp.empty:
@@ -650,6 +660,8 @@ def mostrarComparacion(dataframe1, dataframe2, opcion):
                 row['Promedio de Porcentaje Completitud'] = row['Promedio de Porcentaje Completitud'] *100
             hoyText += f"{row['Ejecutivo']} -- {row['Cliente']} -- {row['Promedio de Porcentaje Completitud']}\n"
     hoyLabel.config(text="Datos nuevos\n\n" + hoyText, justify="left")
+    copy(hoyText)
+    sleep(tiempoEspera["copiarPortapapeles"])
     
     n.add(sp, text='Histórico')
     spText = ""
@@ -661,6 +673,7 @@ def mostrarComparacion(dataframe1, dataframe2, opcion):
         elif opcion == 3:
             spText += f"{row['Ejecutivo']} -- {row['Cliente']} -- {row['Promedio de Porcentaje Completitud']*100}\n"
     spLabel.config(text="Datos previos\n\n" + spText, justify="left")
+    copy(spText)
 
 def mostrarMensaje(mensaje):
     log = "["+str(datetime.now()) + "]:" + mensaje + "."
