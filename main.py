@@ -309,27 +309,29 @@ def guardarDataframe(inf, rutaInforme, nombreHoja, nombreTablaDinamica):
 def traerArchivosParaComparar(inf):
     #fechaHoy = date.today()
     file = carpeta["dataframes"]
-
     #archivoHoy = f"{file}{inf}/{fechaHoy}.pkl"
-    archivoHoy = f"{file}{inf}/2023-08-31.pkl"
-    archivoSP = filedialog.askopenfilename(initialdir=file+inf, title="Selecciona el archivo que desees comparar", filetypes=(("Pickle files", "*.pkl"), ("all files", "*.*")))
+    archivo1 = filedialog.askopenfilename(initialdir=file+inf, title="Selecciona el archivo que desees comparar", filetypes=(("Pickle files", "*.pkl"), ("all files", "*.*")))
+    archivo2 = filedialog.askopenfilename(initialdir=file+inf, title="Selecciona el archivo que desees comparar", filetypes=(("Pickle files", "*.pkl"), ("all files", "*.*")))
 
-    if not os.path.exists(archivoHoy):
-        mensaje = "No existe el archivo de hoy"
+    if not os.path.exists(archivo1):
+        mensaje = "No existe el archivo"
         mostrarMensaje(mensaje)
 
-        return None, None
-    elif not os.path.exists(archivoSP):
+        return pd.DataFrame(), pd.DataFrame()
+    elif not os.path.exists(archivo2):
         mensaje = "No se seleccionó ningún archivo para comparar"
         mostrarMensaje(mensaje)
 
-        return None, None
+        return pd.DataFrame(), pd.DataFrame()
     else:
-        dataframeHoy = pd.read_pickle(archivoHoy)
-        dataframeSP = pd.read_pickle(archivoSP)
+        dataframe1 = pd.read_pickle(archivo1)
+        dataframe2 = pd.read_pickle(archivo2)
+        fecha1 = archivo1.split("/")[-1].split(".")[0]
+        fecha2 = archivo2.split("/")[-1].split(".")[0]
+
         mostrarMensaje("Se han cargado los archivos exitosamente")
 
-        return dataframeHoy, dataframeSP
+        return dataframe1, dataframe2, fecha1, fecha2
 
 def grafico(dataframe):
     if dataframe.empty:
@@ -354,13 +356,13 @@ def grafico(dataframe):
     
     return grafico
 
-def graficarCOMP(hoy, SP):
+def graficarCOMP(dataframe1, dataframe2, fecha1, fecha2):
     # Aquí se crean ambos gráficos y se les asigna un título
-    hoy = grafico(hoy).set_title("Hoy")
-    semanaPasada = grafico(SP).set_title("Antes")
+    grafico1 = grafico(dataframe1).set_title(fecha1)
+    grafico2 = grafico(dataframe2).set_title(fecha2)
     mostrarMensaje("Se han creado los gráficos exitosamente")
 
-    return hoy, semanaPasada
+    return grafico1, grafico2
 
 def abrirArchivo(nombreArchivo):
     
@@ -512,24 +514,24 @@ def comparacionOPP():
     fechaHoy = date.today()
     if not os.path.exists(carpeta["dataframes"]+"OPP/"+str(fechaHoy)+".pkl"):
         guardarDataframe("OPP", archivos["Informe OPP general"], hoja["General"], tabla["General"])
-    hoy, sp = traerArchivosParaComparar("OPP")
-    if hoy.empty or sp.empty:
+    dataframe1, dataframe2, fecha1, fecha2 = traerArchivosParaComparar("OPP")
+    if dataframe1.empty or dataframe2.empty:
         mostrarMensaje("No se encontraron archivos para comparar. Revisa el mensaje anterior")
         return
-    grafico1, grafico2 = graficarCOMP(hoy, sp)
+    grafico1, grafico2 = graficarCOMP(dataframe1, dataframe2, fecha1, fecha2)
     plt.show()
     
-    dfh = hoy.merge(sp, how='outer', indicator='union')
-    dfh = dfh[dfh.union=='left_only'].sort_values(by=[columna["precioSinIva"]], ascending=False)
-    dfh = dfh[[columna['tipoProducto'], columna['ejecutivo'], columna['cliente'], columna['precioSinIva']]]
+    dfl1 = dataframe1.merge(dataframe2, how='outer', indicator='union')
+    dfl1 = dfl1[dfl1.union=='left_only'].sort_values(by=[columna["precioSinIva"]], ascending=False)
+    dfl1 = dfl1[[columna['tipoProducto'], columna['ejecutivo'], columna['cliente'], columna['precioSinIva']]]
 
-    dfsp = sp.merge(hoy, how='outer', indicator='union')
-    dfsp = dfsp[dfsp.union=='left_only'].sort_values(by=[columna["precioSinIva"]], ascending=False)
-    dfsp = dfsp[[columna['tipoProducto'], columna['ejecutivo'], columna['cliente'], columna['precioSinIva']]]
+    dfl2 = dataframe2.merge(dataframe1, how='outer', indicator='union')
+    dfl2 = dfl2[dfl2.union=='left_only'].sort_values(by=[columna["precioSinIva"]], ascending=False)
+    dfl2 = dfl2[[columna['tipoProducto'], columna['ejecutivo'], columna['cliente'], columna['precioSinIva']]]
 
     mostrarMensaje("Se ha creado la comparación de OPP exitosamente")
 
-    return dfh, dfsp
+    return dfl1, dfl2, fecha1, fecha2
 
 def DRB():
     ejecutarMacro(archivos["DRB"], macro["DRB"])
@@ -545,47 +547,47 @@ def comparacionBL():
     fechaHoy = date.today()
     if not os.path.exists(carpeta["dataframes"]+"BL/"+str(fechaHoy)+".pkl"):
         guardarDataframe("BL", archivos["Informe Backlog"], hoja["BL"], tabla["BL"])
-    hoy, sp = traerArchivosParaComparar("BL")
+    dataframe1, dataframe2, fecha1, fecha2 = traerArchivosParaComparar("BL")
 
-    if hoy.empty or sp.empty:
+    if dataframe1.empty or dataframe2.empty:
         mensaje = "No se encontraron archivos para comparar"
         mostrarMensaje(mensaje)
         return
     
-    dfh = hoy.merge(sp, how='outer', indicator='union')
-    dfh = dfh[dfh.union=='left_only'].sort_values(by=[columna["fecha"]])
-    dfh = dfh[[columna['año'], columna['fecha'], columna['cliente'], columna['oportunidad']]]
+    dfl1 = dataframe1.merge(dataframe2, how='outer', indicator='union')
+    dfl1 = dfl1[dfl1.union=='left_only'].sort_values(by=[columna["fecha"]])
+    dfl1 = dfl1[[columna['año'], columna['fecha'], columna['cliente'], columna['oportunidad']]]
 
-    dfsp = sp.merge(hoy, how='outer', indicator='union')
-    dfsp = dfsp[dfsp.union=='left_only'].sort_values(by=[columna["fecha"]])
-    dfsp = dfsp[[columna['año'], columna['fecha'], columna['cliente'], columna['oportunidad']]]
+    dfl2 = dataframe2.merge(dataframe1, how='outer', indicator='union')
+    dfl2 = dfl2[dfl2.union=='left_only'].sort_values(by=[columna["fecha"]])
+    dfl2 = dfl2[[columna['año'], columna['fecha'], columna['cliente'], columna['oportunidad']]]
 
     mostrarMensaje("Se ha creado la comparación de Backlog exitosamente")
 
-    return dfh, dfsp
+    return dfl1, dfl2, fecha1, fecha2
 
 def comparacionClientes(tipo, archivo, hojaCli, tablaCli):
     fechaHoy = date.today()
     if not os.path.exists(carpeta["dataframes"]+tipo+"/"+str(fechaHoy)+".pkl"):
         guardarDataframe(tipo, archivo, hojaCli, tablaCli)
-    hoy, sp = traerArchivosParaComparar(tipo)
+    dataframe1, dataframe2, fecha1, fecha2 = traerArchivosParaComparar(tipo)
 
-    if hoy.empty or sp.empty:
+    if dataframe1.empty or dataframe2.empty:
         mensaje = "No se encontraron archivos para comparar"
         mostrarMensaje(mensaje)
         return
     
-    dfh = hoy.merge(sp, how='outer', indicator='union')
-    dfh = dfh[dfh.union=='left_only'].sort_values(by=[columna["porcentajeCompletitud"]])
-    dfh = dfh[[columna["ejecutivo"], columna['cliente'], columna['porcentajeCompletitud']]]
+    dfl1 = dataframe1.merge(dataframe2, how='outer', indicator='union')
+    dfl1 = dfl1[dfl1.union=='left_only'].sort_values(by=[columna["porcentajeCompletitud"]])
+    dfl1 = dfl1[[columna["ejecutivo"], columna['cliente'], columna['porcentajeCompletitud']]]
 
-    dfsp = sp.merge(hoy, how='outer', indicator='union')
-    dfsp = dfsp[dfsp.union=='left_only'].sort_values(by=[columna["porcentajeCompletitud"]])
-    dfsp = dfsp[[columna["ejecutivo"], columna['cliente'], columna['porcentajeCompletitud']]]
+    dfl2 = dataframe2.merge(dataframe1, how='outer', indicator='union')
+    dfl2 = dfl2[dfl2.union=='left_only'].sort_values(by=[columna["porcentajeCompletitud"]])
+    dfl2 = dfl2[[columna["ejecutivo"], columna['cliente'], columna['porcentajeCompletitud']]]
 
     mostrarMensaje("Se ha creado la comparación de clientes exitosamente")
 
-    return dfh, dfsp
+    return dfl1, dfl2, fecha1, fecha2
 
 def tutorial():
     nombreArchivo = archivos["tuto"]
@@ -598,12 +600,12 @@ def eliminarDataframesAntiguos():
     carpetaSOW = carpeta["dataframes"]+ "SOW/"
 
     fechaHoy = date.today()
-    SemanaPasada = fechaHoy - timedelta(weeks=4)
+    mesPasado = fechaHoy - timedelta(weeks=4)
 
     def eliminarDataframes(carpeta):
         for archivo in os.listdir(carpeta):
             fechaArchivo = date.fromisoformat(archivo[:-4])
-            if fechaArchivo < SemanaPasada:
+            if fechaArchivo < mesPasado:
                 os.remove(carpeta+archivo)
                 mensaje = "Se ha eliminado "+ carpeta + archivo +" exitosamente\n"
                 mostrarMensaje(mensaje)       
@@ -646,34 +648,34 @@ def mostrarDatos(mensaje, log):
     datosLabel.config(text=mensaje, justify="left")
     mostrarMensaje(log)
 
-def mostrarComparacion(dataframe1, dataframe2, opcion):
-    n.add(hoy, text='Hoy')
-    hoyText = ""
+def mostrarComparacion(dataframe1, dataframe2, fecha1, fecha2, opcion):
+    n.add(comp1, text=fecha1)
+    comp1Text = ""
     for index, row in dataframe1.iterrows():
     # La comparación se hace tanto para OPP como para Backlog y Clientes, por eso se pregunta por la opción
         if opcion == 1:
-            hoyText += f"{row['Tipo Producto']} -- {row['Ejecutivo']} -- {row['Cliente']} -- {row['Suma de Precio sin IVA']}\n"
+            comp1Text += f"{row['Tipo Producto']} -- {row['Ejecutivo']} -- {row['Cliente']} -- {row['Suma de Precio sin IVA']}\n"
         elif opcion == 2:
-            hoyText += f"{row['Año']} -- {row['Fecha de cierre']} -- {row['Cliente']} -- {row['Oportunidad']}\n"
+            comp1Text += f"{row['Año']} -- {row['Fecha de cierre']} -- {row['Cliente']} -- {row['Oportunidad']}\n"
         elif opcion == 3:
             if row['Promedio de Porcentaje Completitud'] < 1:
                 row['Promedio de Porcentaje Completitud'] = row['Promedio de Porcentaje Completitud'] *100
-            hoyText += f"{row['Ejecutivo']} -- {row['Cliente']} -- {row['Promedio de Porcentaje Completitud']}\n"
-    hoyLabel.config(text="Datos nuevos\n\n" + hoyText, justify="left")
-    copy(hoyText)
+            comp1Text += f"{row['Ejecutivo']} -- {row['Cliente']} -- {row['Promedio de Porcentaje Completitud']}\n"
+    comp1Label.config(text="Datos del "+fecha1+"\n\n" + comp1Text, justify="left")
+    copy(comp1Text)
     sleep(tiempoEspera["copiarPortapapeles"])
     
-    n.add(sp, text='Histórico')
-    spText = ""
+    n.add(comp2, text=fecha2)
+    comp2Text = ""
     for index, row in dataframe2.iterrows():
         if opcion == 1:
-            spText += f"{row['Tipo Producto']} -- {row['Ejecutivo']} -- {row['Cliente']} -- {row['Suma de Precio sin IVA']}\n"
+            comp2Text += f"{row['Tipo Producto']} -- {row['Ejecutivo']} -- {row['Cliente']} -- {row['Suma de Precio sin IVA']}\n"
         elif opcion == 2:
-            spText += f"{row['Año']} -- {row['Fecha de cierre']} -- {row['Cliente']} -- {row['Oportunidad']}\n"
+            comp2Text += f"{row['Año']} -- {row['Fecha de cierre']} -- {row['Cliente']} -- {row['Oportunidad']}\n"
         elif opcion == 3:
-            spText += f"{row['Ejecutivo']} -- {row['Cliente']} -- {row['Promedio de Porcentaje Completitud']*100}\n"
-    spLabel.config(text="Datos previos\n\n" + spText, justify="left")
-    copy(spText)
+            comp2Text += f"{row['Ejecutivo']} -- {row['Cliente']} -- {row['Promedio de Porcentaje Completitud']*100}\n"
+    comp2Label.config(text="Datos del "+fecha2+"\n\n" + comp2Text, justify="left")
+    copy(comp2Text)
 
 def mostrarMensaje(mensaje):
     log = "["+str(datetime.now()) + "]:" + mensaje + "."
@@ -703,12 +705,15 @@ menu.add_cascade(label="Backlog", menu=backlogMenu)
 backlogMenu.add_command(label="Actualizar Backlog", command=actualizarBacklog)
 backlogMenu.add_command(label="Mostrar comparación Backlog", command=lambda: mostrarComparacion(*comparacionBL(), 2))
 
-clientesMenu = tk.Menu(menu, tearoff=0)
-menu.add_cascade(label="Clientes", menu=clientesMenu)
-clientesMenu.add_command(label="Actualizar Account Plan", command=lambda: mostrarDatos(*AccountPLan()))
-clientesMenu.add_command(label="Mostrar comparación Account Plan", command=lambda: mostrarComparacion(*comparacionClientes("AC", archivos["AccountPlan"], hoja["AccountPlan"], tabla["AccountPlan"]), 3))
-clientesMenu.add_command(label="Actualizar SoW", command=lambda: mostrarDatos(*SoW()))
-clientesMenu.add_command(label="Mostrar comparación SoW", command=lambda: mostrarComparacion(*comparacionClientes("SOW", archivos["SoW"], hoja["SoW"], tabla["SoW"]), 3))
+ACMenu = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label="Account Plan", menu=ACMenu)
+ACMenu.add_command(label="Actualizar Account Plan", command=lambda: mostrarDatos(*AccountPLan()))
+ACMenu.add_command(label="Mostrar comparación Account Plan", command=lambda: mostrarComparacion(*comparacionClientes("AC", archivos["AccountPlan"], hoja["AccountPlan"], tabla["AccountPlan"]), 3))
+
+SoWMenu = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label="SoW", menu=SoWMenu)
+SoWMenu.add_command(label="Actualizar SoW", command=lambda: mostrarDatos(*SoW()))
+SoWMenu.add_command(label="Mostrar comparación SoW", command=lambda: mostrarComparacion(*comparacionClientes("SOW", archivos["SoW"], hoja["SoW"], tabla["SoW"]), 3))
 
 opcionesMenu = tk.Menu(menu, tearoff=0)
 menu.add_cascade(label="Opciones", menu=opcionesMenu)
@@ -734,16 +739,16 @@ ventanaPrincipal.pack()
 
 # Crear la ventana de comparación
 n = ttk.Notebook(comparacion)
-hoy = ttk.Frame(n)
-sp = ttk.Frame(n)
-spScroll = ScrolledFrame(sp, autohide=True, height=500, width=1200)
-spLabel = tk.Label(spScroll, font=("Arial", 10))
-hoyScroll = ScrolledFrame(hoy, autohide=True, height=500, width=1200)
-hoyLabel = tk.Label(hoyScroll, font=("Arial", 10))
-spScroll.pack()
-hoyScroll.pack()
-hoyLabel.pack()
-spLabel.pack()
+comp1 = ttk.Frame(n)
+comp2 = ttk.Frame(n)
+comp2Scroll = ScrolledFrame(comp2, autohide=True, height=500, width=1200)
+comp2Label = tk.Label(comp2Scroll, font=("Arial", 10))
+comp1Scroll = ScrolledFrame(comp1, autohide=True, height=500, width=1200)
+comp1Label = tk.Label(comp1Scroll, font=("Arial", 10))
+comp2Scroll.pack()
+comp1Scroll.pack()
+comp1Label.pack()
+comp2Label.pack()
 n.pack()
 
 # Crear la ventana de datos
