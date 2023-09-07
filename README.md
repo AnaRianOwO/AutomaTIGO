@@ -71,6 +71,19 @@ El sistema está principalmente enfocado a Windows, por lo que si se desea utili
 4. Ejecutar el archivo "main.py" para utilizar la herramienta.
 5. En caso de que se desee agregar el ejecutable de Mac OS o Linux, seguir las recomendaciones de [Pyinstaller](#pyinstaller).
 
+Además, se deberá eliminar una línea de código en el archivo "main.py" para que funcione correctamente. Esta línea es la siguiente:
+
+```python
+# Buscar cada línea de código que contenga "subprocess.run" y eliminar "shell=True" con la coma.
+# Pueden utilizar bloc de notas para buscar la línea de código, con ctrl + f.
+
+subprocess.run([so[sistemaOperativo]["subprocess.run"], so[sistemaOperativo]["notas"], nombreArchivo], shell=True)
+subprocess.run([so[sistemaOperativo]["subprocess.run"], nombreArchivo], shell=True)
+
+```
+
+La idea es solamente quitar la parte de "shell=True" para que funcione correctamente.
+
 ### Pyinstaller
 
 Para crear el ejecutable de Mac OS o Linux se debe seguir los siguientes pasos:
@@ -505,7 +518,7 @@ El proyecto está principalmente enfocado a la empresa de TIGO, si se desea util
 Para cambiar los estilos se deben dirigir al archivo principal, en este está la definición de los estilos de la aplicación.
 
 ```python	
-# Menu Python
+# Menu Python 
 root = ttb.Window(themename='solar')
 root.title("automaTIGO")
 

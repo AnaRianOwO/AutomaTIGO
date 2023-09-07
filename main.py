@@ -368,9 +368,9 @@ def abrirArchivo(nombreArchivo):
     
     try:
         if nombreArchivo[-4:] == "json":
-            subprocess.run(['start', 'notepad', nombreArchivo], shell=True)
+            subprocess.run([so[sistemaOperativo]["subprocess.run"], so[sistemaOperativo]["notas"], nombreArchivo], shell=True)
         else:
-            subprocess.run(['start', nombreArchivo], shell=True)
+            subprocess.run([so[sistemaOperativo]["subprocess.run"], nombreArchivo], shell=True)
         mostrarMensaje(f"Se ha abierto el archivo {nombreArchivo} exitosamente")
     except FileNotFoundError:
         mostrarMensaje(f"No se pudo abrir el archivo {nombreArchivo}. Verifica el nombre y la ruta.")
