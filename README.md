@@ -202,11 +202,11 @@ Al acceder al archivo "data.json" se encuentran varias categorías, cualquiera d
   
 ![Imagen de cómo se ven las variables de las tablas](img/tablas.png)
 
-- **saludo:** Esta contiene los mensajes que se envían con los datos copiados en el portapapeles.
+- **saludo:** Esta contiene los mensajes que se envían con los datos copiados en el portapapeles. Si se desea editar alguno de los mensajes solamente es necesario cambiar el texto que se encuentra entre comillas.
 
 ![Imagen de cómo se ven las variables de los saludos](img/saludos.png)
 
-- **tiempoEspera:** Esta contiene todo los definidos de cada vez que se utiliza la función de sleep, es decir, el tiempo que se espera para que se cargue una página, se descargue un archivo o se copie un dato en el portapapeles.
+- **tiempoEspera:** Esta contiene todo los definidos de cada vez que se utiliza la función de sleep, es decir, el tiempo que se espera para que se cargue una página, se descargue un archivo o se copie un dato en el portapapeles. Si se desea cambiar alguno de los tiempos solamente es necesario cambiar el número, esto por si se desea que la herramienta funcione más rápido o más lento, ya sea por la conexión a internet o por la velocidad del computador.
   
 ![Imagen de cómo se ven las variables de los tiempos de espera](img/tiempoEspera.png)
 
@@ -466,6 +466,54 @@ Si se desea contribuir al proyecto se debe seguir esta estructura y tener en cue
 ![Tablas dinámicas](img/tablasDinamicas.png)
 
 Los datos de las primeras columnas se repiten para cada registro que aparezca en este caso, esto facilita el guardado en el dataframe, por lo tanto, se sugiere que no se modifique esto, por lo menos debería estar así al momento en que se solicitan datos en las funciones previamente mencionadas.
+
+**Filtros:** Los filtros que se pueden colocar a cada una de las tablas dinámicas se pueden filtrar de la siguiente manera:
+
+***Ejecutivo:*** Se puede filtrar por ejecutivo, en este caso se debe seleccionar el ejecutivo que se desee y dar clic en "Aceptar".
+
+***Líder:*** Se puede filtrar por líder, en este caso se debe seleccionar el líder que se desee y dar clic en "Aceptar".
+
+Las tablas dinámicas en las que se pueden filtrar por ejecutivo o por líder son las siguientes:
+
+1. General: Esta tabla dinámica se encuentra en la hoja "PRODUCTO X EQUIPO" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica general](img/tablaGeneral.png)
+
+2. Productos en (-): Esta tabla dinámica se encuentra en la hoja "VENTA NETA (-)" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica productos en -](img/tablaProductosEn-.png)
+
+3. Productos en $0: Esta tabla dinámica se encuentra en la hoja "VALORES 0" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica productos en $0](img/tablaProductosEn0.png)
+
+4. Oportunidades en $0: Esta tabla dinámica se encuentra en la hoja "OPORTUNIDADES 0" y se puede filtrar por ejecutivo o por líder.
+   
+![Tabla dinámica oportunidades en $0](img/tablaOportunidadesEn0.png)
+
+5. Candidatos Fast Track: Esta tabla dinámica se encuentra en la hoja "Candidatos fast track" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica candidatos fast track](img/tablaFastTrack.png)
+
+6. Oportunidades próximas a vencer: Esta tabla dinámica se encuentra en la hoja "PROXIMO A VENCER" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica oportunidades próximas a vencer](img/tablaProximasAVencer.png)
+
+7. DRB: Esta tabla dinámica se encuentra en la hoja "DRB" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica DRB](img/tabladrb.png)
+
+8. Backlog: Esta tabla dinámica se encuentra en la hoja "CASOS A REVISAR" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica backlog](img/tablaBacklog.png)
+
+9. Account Plan: Esta tabla dinámica se encuentra en la hoja "Plan de cuentas PROMEDIO" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica account plan](img/tablaAccountPlan.png)
+
+10. SoW: Esta tabla dinámica se encuentra en la hoja "SoW x ejecutivo y %" y se puede filtrar por ejecutivo o por líder.
+
+![Tabla dinámica SoW](img/tablaSoW.png)
 
 # Solución de problemas
 
