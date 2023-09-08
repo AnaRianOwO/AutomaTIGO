@@ -313,16 +313,16 @@ def traerArchivosParaComparar(inf):
     archivo1 = filedialog.askopenfilename(initialdir=file+inf, title="Selecciona el archivo que desees comparar", filetypes=(("Pickle files", "*.pkl"), ("all files", "*.*")))
     archivo2 = filedialog.askopenfilename(initialdir=file+inf, title="Selecciona el archivo que desees comparar", filetypes=(("Pickle files", "*.pkl"), ("all files", "*.*")))
 
-    if not os.path.exists(archivo1):
-        mensaje = "No existe el archivo"
-        mostrarMensaje(mensaje)
-
-        return pd.DataFrame(), pd.DataFrame()
-    elif not os.path.exists(archivo2):
+    if not archivo1:
         mensaje = "No se seleccionó ningún archivo para comparar"
         mostrarMensaje(mensaje)
 
-        return pd.DataFrame(), pd.DataFrame()
+        return pd.DataFrame(), pd.DataFrame(), "", ""
+    elif not archivo2:
+        mensaje = "No se seleccionó ningún archivo para comparar"
+        mostrarMensaje(mensaje)
+
+        return pd.DataFrame(), pd.DataFrame(), "", ""
     else:
         dataframe1 = pd.read_pickle(archivo1)
         dataframe2 = pd.read_pickle(archivo2)
@@ -397,6 +397,12 @@ def definirCoordenadas():
     sleep(tiempoEspera["actualizarCoordenadas"])
     listener.stop()
 
+    if XandY == []:
+        mostrarMensaje("No se han guardado las coordenadas")
+        return
+    elif len(XandY) < 7:
+        mostrarMensaje("No se han guardado todas las coordenadas")
+        return
     coord = {
         "coordenada": {
             "actualizar": XandY[0],
@@ -463,7 +469,7 @@ def productosCero():
     return diccionario, mensaje
 
 def oportunidadesCero():
-    datos = manipularExcel("data/OPP/Informe OPP general.xlsm", hoja["Productos0"], tabla["Oportunidad0"])
+    datos = manipularExcel(archivos["Informe OPP general"], hoja["Productos0"], tabla["Oportunidad0"])
     if datos.empty:
         mostrarMensaje("No se ha extraído la información del archivo. Revisa el mensaje anterior")
         return
@@ -575,7 +581,7 @@ def comparacionClientes(tipo, archivo, hojaCli, tablaCli):
     if dataframe1.empty or dataframe2.empty:
         mensaje = "No se encontraron archivos para comparar"
         mostrarMensaje(mensaje)
-        return
+        return "", "", "", ""
     
     dfl1 = dataframe1.merge(dataframe2, how='outer', indicator='union')
     dfl1 = dfl1[dfl1.union=='left_only'].sort_values(by=[columna["porcentajeCompletitud"]])
@@ -631,6 +637,7 @@ def antesDeEmpezar():
     variables = ttk.Button(tuto, text="4. Variables", command=lambda: abrirArchivo(archivos["variables"]))
     excel = ttk.Button(tuto, text="5. Configurar Excel", command=lambda: abrirArchivo(archivos["DRB"]))
     data = ttk.Button(tuto, text="6. Configurar carpeta de data", command=lambda: abrirCarpeta(carpeta["data"]))
+    salir = ttk.Button(tuto, text="Salir", command=lambda: tuto.destroy())
 
     sesion.pack(pady=10, padx=10)
     coordenadas.pack(pady=10, padx=10)
@@ -638,6 +645,7 @@ def antesDeEmpezar():
     variables.pack(pady=10, padx=10)
     excel.pack(pady=10, padx=10)
     data.pack(pady=10, padx=10)
+    salir.pack(pady=10, padx=10)
 
 # Menu
 
@@ -649,6 +657,8 @@ def mostrarDatos(mensaje, log):
     mostrarMensaje(log)
 
 def mostrarComparacion(dataframe1, dataframe2, fecha1, fecha2, opcion):
+    if fecha1 == "" or fecha2 == "":
+        return
     n.add(comp1, text=fecha1)
     comp1Text = ""
     for index, row in dataframe1.iterrows():
