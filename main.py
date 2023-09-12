@@ -610,11 +610,14 @@ def eliminarDataframesAntiguos():
 
     def eliminarDataframes(carpeta):
         for archivo in os.listdir(carpeta):
-            fechaArchivo = date.fromisoformat(archivo[:-4])
-            if fechaArchivo < mesPasado:
-                os.remove(carpeta+archivo)
-                mensaje = "Se ha eliminado "+ carpeta + archivo +" exitosamente\n"
-                mostrarMensaje(mensaje)       
+            try:
+                fechaArchivo = date.fromisoformat(archivo[:-4])
+                if fechaArchivo < mesPasado:
+                    os.remove(carpeta+archivo)
+                    mensaje = "Se ha eliminado "+ carpeta + archivo +" exitosamente"
+                    mostrarMensaje(mensaje)
+            except ValueError:
+                mostrarMensaje("No se pudo eliminar el archivo "+archivo+". No tiene una fecha válida")   
     
     eliminarDataframes(carpetaOPP)
     eliminarDataframes(carpetaBL)

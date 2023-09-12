@@ -29,19 +29,25 @@ A continuación se detallan los pasos para la instalación y uso de la herramien
 - [Solución de problemas](#solución-de-problemas)
   - [Errores comunes](#errores-comunes)
   - [Preguntas frecuentes](#preguntas-frecuentes)
-- [Licencia](#licencia)
 
 
 # Instalación
 Para la instalación de la herramienta se deben seguir los siguientes pasos:
 
-1. Descargar el archivo comprimido del repositorio.
-    1. Para ello se debe dar clic en el botón verde que dice "Code" y luego en "Download ZIP".
-    2. Otra opción es dar clic en el siguiente enlace: [Descargar ZIP](https://github.com/AnaRianOwO/automaTIGO/archive/refs/heads/main.zip)
-    3. Oprimir la opción de "Releases" a la derecha de la página y luego en "main.zip (zip)". Descargue el archivo que más le convenga, ya sea el comprimido o el ejecutable.
-2. Descomprimir el archivo en la carpeta deseada.
-3. En el caso de que se esté descargando para utilizarlo en la empresa de TIGO, se debe solicitar la carpeta de "data", esta contiene los datos necesarios para que funcione en la compañía.
-4. Para que funcione el aplicativo se debe ejecutar el archivo "main.exe" para utilizarlo.
+1. Acceder a la carpeta en donde se encuentra alojado el código fuente de la herramienta.
+2. Guardar dicha carpeta en el lugar deseado.
+3. Descargar Python 3.11 para poder ejecutar el código fuente. Se puede descargar tanto de la página oficial de [Python](https://www.python.org/downloads/) como de la Microsoft Store.
+4. Descargar las librerías necesarias para el funcionamiento de la herramienta. Para ello ejecutar el comando `pip install -r requirements.txt` en la consola de comandos de Windows.
+  
+![Instalación de las librerías](img/intalacionLibrerias.png)
+
+Para abrir la consola de Windos en la carpeta del aplicativo solamente se debe dar clic en la barra de direcciones y escribir "cmd" y dar enter.
+
+![Abrir consola de comandos](img/consolaComandos.png)
+
+Después de esto se debe esperar un momento para que se instalen las librerías necesarias para el funcionamiento de la herramienta. Si se utiliza un dispositivo Mac OS o Linux se debe tener en cuenta que se debe cambiar una línea de código en el archivo "main.py", para más información ver [Mac OS o Linux](#mac-os-o-linux).
+
+Por último, para ejecutar el código fuente se debe ejecutar el comando `python main.py` en la consola de comandos de Windows. Desde aquí se debe configurar la herramienta para que funcione correctamente, para más información ver [Antes de empezar](#antes-de-empezar).
 
 ## Requisitos
 
@@ -63,15 +69,7 @@ Para la instalación de la herramienta se deben seguir los siguientes pasos:
 
 ## Mac OS o Linux
 
-El sistema está principalmente enfocado a Windows, por lo que si se desea utilizar en Mac OS o Linux se debe tener en cuenta lo siguiente:
-
-1. Descargar Python 3.11. y Visual Studio Code 1.52.
-2. Clonar o descargar el repositorio en la carpeta deseada.
-3. Ejecutar el comando `pip install -r requirements.txt` para instalar las librerías necesarias.
-4. Ejecutar el archivo "main.py" para utilizar la herramienta.
-5. En caso de que se desee agregar el ejecutable de Mac OS o Linux, seguir las recomendaciones de [Pyinstaller](#pyinstaller).
-
-Además, se deberá eliminar una línea de código en el archivo "main.py" para que funcione correctamente. Esta línea es la siguiente:
+El aplicativo funciona correctamente en Mac OS o Linux, pero para ello se debe tener en cuenta que se debe cambiar una línea de código en el archivo "main.py". Para ello se debe seguir los siguientes pasos:
 
 ```python
 # Buscar cada línea de código que contenga "subprocess.run" y eliminar "shell=True" con la coma.
@@ -84,25 +82,29 @@ subprocess.run([so[sistemaOperativo]["subprocess.run"], nombreArchivo], shell=Tr
 
 La idea es solamente quitar la parte de "shell=True" para que funcione correctamente.
 
+Para ejecutar el código fuente en Mac OS o Linux se debe ejecutar el comando `python3 main.py` en la consola de comandos.
+
 ### Pyinstaller
 
 Para crear el ejecutable de Mac OS o Linux se debe seguir los siguientes pasos:
 
 1. Tener el código fuente en la carpeta deseada.
 2. La librería de Pyinstaller se descarga con los requerimientos, por lo que no es necesario instalarla.
-3. Ejecutar el comando `pyinstaller --onefile main.py` para crear el ejecutable.
+3. Ejecutar el comando `pyinstaller --onefile main.py` para crear el ejecutable. (en la carpeta en donde se encuentra el código fuente, seguir los pasos de [Abrir consola de comandos](#instalación))
 4. Se creará una carpeta llamada "dist" en donde se encontrará el ejecutable.
-5. Subir el ejecutable al apartado de "Releases" del repositorio. Para ello ir a editar el último release y subir el ejecutable en la parte de "Assets".
+5. Guardar dicho ejecutable en la carpeta de la empresa.
 
 # Antes de empezar
 Antes de empezar a utilizar la herramienta se deben tener en cuenta los siguientes aspectos:
 
  - Se deben confirmar todos los requerimientos de la herramienta (ver [Requisitos](#requisitos)).
- - Se debe tener en cuenta que la herramienta está diseñada para funcionar en la empresa de TIGO, por lo que si se desea utilizar en otro contexto no funcionará nada más para ver el código fuente.
- - El archivo "data.json" contiene datos que se utilizarán a lo largo de la ejecución de la herramienta, por lo que se debe tener en cuenta que si se desea cambiar algún dato se debe hacer con cuidado, ya que puede afectar el funcionamiento. Para más información ver [Data.json](#datajson).
+ - Se debe tener en cuenta que la herramienta está diseñada para funcionar en la empresa de TIGO, por lo que si se desea utilizar en otro contexto no funcionará nada más que para ver el código fuente.
+ - El archivo "data.json" contiene variables que se utilizarán a lo largo de la ejecución de la herramienta, por lo que se debe tener en cuenta que si se desea cambiar algún dato se debe hacer con cuidado, ya que puede afectar el funcionamiento. Para más información ver [Data.json](#datajson).
  - Se debe tener en cuenta que la sesión de Salesforce de TIGO debe estar previamente iniciada, ya que si no se encuentra iniciada no se podrá acceder a los links que se utilizan en la herramienta. También se debe acceder a esta parte a través de Excel para que se puedan acceder a los datos web.
 
 Para mayor información sobre qué hacer antes de utilizar la herramienta se puede hacer uso de la función [Antes de empezar](#opciones), la cual se va a explicar a continuación:
+
+Para abrir dicha función se debe dar clic a opciones y luego a "Antes de empezar", después se abrirá una ventana en donde se deben seguir los siguientes pasos:
 
 ![Antes de empezar](img/antesDeEmpezar.png)
 
@@ -112,7 +114,7 @@ Para mayor información sobre qué hacer antes de utilizar la herramienta se pue
 
 De ser posible guardar la contraseña en el navegador predeterminado, no es una práctica recomendada, pero para el uso de la herramienta es necesario.
 
-2. Coordenadas: Una vez iniciada la sesión de salesforce es momento de definir las coordenadas según la pantalla, se recomienda que el navegador esté en pantalla completa para que los links se abran de dicha manera siempre. Al momento de ejecutar la función se recomienda no utilizar el mouse sino para las coordenadas, ya que se puede afectar el funcionamiento de la herramienta.
+1. Coordenadas: Una vez iniciada la sesión de salesforce es momento de definir las coordenadas según la pantalla, se recomienda que el navegador esté en pantalla completa para que los links se abran de dicha manera siempre. Al momento de ejecutar la función se recomienda no utilizar el mouse para algo más que las coordenadas, ya que se puede afectar el funcionamiento de la herramienta.
 
   Al momento de ejecutar la función debe seguir los siguientes pasos inmediatamente:
 
@@ -146,7 +148,7 @@ De ser posible guardar la contraseña en el navegador predeterminado, no es una 
    
    Se va a descargar el archivo, si no se desea descargar oprimir **ctrl + w** para cerrar la pestaña.
 
-Es importante solamente realizar esta serie de clic para el correcto funcionamiento del aplicativo, después de estos clics oprimir **alt + tab** y esperar al mensaje de "Coordenadas actualizadas correctamente" en el apartado de Log.
+Es importante solamente realizar esta serie de clic para el correcto funcionamiento del aplicativo, después de estos clics oprimir **alt + tab** y esperar al mensaje de "Coordenadas actualizadas correctamente" en el apartado de Log. Si se siguieron los pasos correctamente se abrirá el archivo con las coordenadas actualizadas, cuando se abra el archivo si no se desea editar nada solamente cerrar el archivo.
 
 3.  Carpeta de descargas: Se debe definir cómo se llama la carpeta de descargas por defecto del computador, solamente selecciona la carpeta que se desee y dar clic en aceptar. Teniendo en cuenta esta carpeta es que se extraen los informes descargados de Salesforce. Esta carpeta se puede cambiar en el navegador predeterminado, en el caso de Google Chrome se puede hacer en la siguiente ruta: "chrome://settings/downloads", pero es recomendable dejarlo en la carpeta de descargas por defecto.
 
@@ -227,7 +229,7 @@ También, para más comodidad, solamente utilizar la función de antes de empeza
 ![Imagen de cómo se ven las variables de las coordenadas](img/coordenadas.png)
 
 # Uso
-En el caso de que se cuente con algún tipo de antivirus, es probable que se muestre una ventana de advertencia, en este caso se debe dar clic "Ejecutar de todas formas". Esto se debe a que el aplicativo no está firmado, por lo que el antivirus no lo reconoce como un aplicativo seguro. Esto no ocurre si se utiliza el código fuente, ya que no se ha compilado.
+En el caso de que se cuente con algún tipo de antivirus, es probable que se muestre una ventana de advertencia, en este caso se debe dar clic "Ejecutar de todas formas". Esto se debe a que el aplicativo no está firmado, por lo que el antivirus no lo reconoce como un aplicativo seguro. Esto no ocurre si se utiliza el código fuente, por lo que se recomienda utilizar el mismo si se desean evitar este tipo de inconvenientes.
 
 Al momento de utilizar la aplicación, terminando de configurar todas las variables de data.json, se ejecutará el archivo main.exe y se abrirá la siguiente ventana:
 
@@ -287,14 +289,14 @@ Al momento de ejecutar el aplicativo se abrirá la ventana principal, en esta se
 
 ![Productos en -:](img/productosEn-.jpg)
 
-- **Mostrar comparación OPP general:** Esta función trae el dataframe del día de hoy y otro archivo que el usuario seleccione para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación". Además de que realiza dos gráficas que se muestran por fuera del aplicativo con el total de cada tipo de producto.
+- **Mostrar comparación OPP general:** Esta función trae la comparación entre dos dataframes que seleccione el usuario a través de mostrar los datos que solo aparecen en una tabla en el apartado de "Comparación". Además de que realiza dos gráficas que se muestran por fuera del aplicativo con el total de cada tipo de producto.
 
 ![Selección de archivos](img/seleccionarArchivo.png)
 
 ![Mostrar comparación OPP general](img/graficos.png)
 Los datos de los gráficos no se muestran en la imagen por seguridad. Prometo que si hay datos en los gráficos.
 
-El botón de Hoy muestra los datos que aparecieron hoy y no estaban la semana pasada, mientras que el botón de Semana pasada muestra los datos que aparecieron la semana pasada y no están hoy.
+Los botones muestran los nombres de los archivos, estos se crean por defecto con la fecha, pero si es necesario se puede cambiar el nombre para que se pueda identificar mejor.
 
 ![Comparación Hoy OPP](img/hoyOPP.jpg)
 
@@ -310,7 +312,7 @@ El botón de Hoy muestra los datos que aparecieron hoy y no estaban la semana pa
 
 ![Actualizar backlog (sin el archivo descargado)](img/actualizarBacklog.png)
 
-- **Mostrar comparación Backlog:** Esta función trae el dataframe del día de hoy y de la semana pasada para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
+- **Mostrar comparación Backlog:** Esta función crea el dataframe del día de hoy, por lo que se recomienda que se ejecute después de haber actualizado el informe, luego permite que el usuario seleccione dos dataframes para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
 
 ![Selección de archivos](img/seleccionarArchivo.png)
 
@@ -325,13 +327,13 @@ Aquí también se puede seleccionar con qué archivo se desea comparar, en el ca
 
 ![Account Plan](img/accountPlan.png)
 
-- **Mostrar comparación Account Plan:** Esta función trae el dataframe del día de hoy permite que el usuario seleccione otro para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
+- **Mostrar comparación Account Plan:** Esta función crea el dataframe del día de hoy, por lo que se recomienda que se ejecute después de haber actualizado el informe, luego permite que el usuario seleccione dos dataframes para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
 
 - **SoW:** Esta función lo que hace es actualizar la tabla que trae los datos del mismo salesforce, se extraen los datos de los clientes con -70% y se muestra en el apartado de "Datos". Esta función abre automáticamente el archivo por lo que no habrá necesidad de abrirla manualmente. Es importante que al momento de descargar el archivo no se manipule el mouse, ya que se puede afectar el funcionamiento de la herramienta.
 
 ![SoW](img/sow.jpg)
 
-- **Mostrar comparación SoW:** Esta función trae el dataframe del día de hoy permite que el usuario seleccione otro para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
+- **Mostrar comparación SoW:** Esta función crea el dataframe del día de hoy, por lo que se recomienda que se ejecute después de haber actualizado el informe, luego permite que el usuario seleccione dos dataframes para luego comparar los datos y mostrar aquellos que solo aparezcan en una tabla en el apartado de "Comparación".
 
 ### Opciones
 
@@ -341,13 +343,13 @@ Aquí también se puede seleccionar con qué archivo se desea comparar, en el ca
 
 - **Antes de empezar:** Esta función lo que hace es abrir el archivo PDF que contiene el Manual de automatización de la herramienta, es decir, el manual que explica cómo hacer el paso a paso de nuevas automatizaciones. Además, de mostrar un breve resumen de lo que se debe hacer antes de comenzar a utilizar la herramienta.
 
-- **Eliminar dataframes antiguos:** Esta función lo que hace es eliminar los archivos .pkl mayores a una semana de creación, esto se hace para que no se acumulen y ocupen espacio en el disco duro. Para guardar dataframes específicos se pueden guardar en otra carpeta.
+- **Eliminar dataframes antiguos:** Esta función lo que hace es eliminar los archivos .pkl mayores a un mes de creación, esto se hace para que no se acumulen y ocupen espacio en el disco duro. Para guardar dataframes específicos se pueden guardar en otra carpeta o cambiarles de nombre.
 
 - **Abrir carpeta de informes:** Esta función lo que hace es abrir la carpeta donde se guardan los informes de OPP y Backlog, es decir, la carpeta de "data" completa.
 
 - **Cambiar variables del programa:** Esta función lo que hace es abrir el archivo "data.json" para que se puedan cambiar las variables que se necesiten.
 
-- **Repositorio:** Esta función lo que hace es abrir el repositorio de GitHub donde se encuentra el código de la herramienta. Es muy probable que hayas utilizado esa función para llegar acá (aunque bueno, si esto es un PDF puede que no).
+- **Repositorio:** Esta función lo que hace es abrir el repositorio de GitHub donde se encuentra el código de la herramienta. Es muy probable que hayas utilizado esa función para llegar acá (aunque bueno, si esto es un PDF puede que no). El código fuente no tiene ningún tipo de restricción, por lo que se puede utilizar para cualquier fin, pero se recomienda que se utilice para el fin que fue creado. Además, el repositorio no contiene la carpeta de data, por lo que si se desea utilizar el código fuente se debe solicitar a un compañero que cuente con la carpeta o con el jefe.
 
 - **¿Cómo agregar más opciones?:** Esta función lo que hace es abrir el archivo referente al informe de automatización que explica cómo hacer el paso a paso de nuevas automatizaciones.
 
@@ -355,16 +357,18 @@ Aquí también se puede seleccionar con qué archivo se desea comparar, en el ca
 
 # Contribución
 
-En el caso de que se desee contribuir al proyecto, se deben seguir los siguientes pasos:
+Para contribuir en el proyecto solamente se debe editar desde el archivo "main.py", ya que es el único archivo que se utiliza para el funcionamiento de la herramienta. Si se necesita ayuda con el código se puede contactar conmigo para poder ayudar en lo que se necesite.
+
+<!-- En el caso de que se desee contribuir al proyecto, se deben seguir los siguientes pasos:
 1. Después de clonar el repositorio y realizar los cambios deseados, se debe ejecutar el archivo "main.py" para probar que todo funcione correctamente.
 
 2. Se debe realizar una pull request con los cambios realizados y esperar a que se apruebe (para realizar el pull request se debe tener una cuenta de GitHub y seguir este [tutorial](https://www.youtube.com/watch?v=BPns9r76vSI)) (para realizar el cambio se necesita antes tener una cuenta de Github)
 
 3. En el caso de que se desee cambiar por completo el proyecto se recomienda crear un nuevo repositorio para no afectar el funcionamiento de este aplicativo. Si ese es el caso y se desea acompañamiento se puede contactar conmigo para poder ayudar en lo que se necesite.
 
-4. En el caso de que el cambio sea personal se recomienda hacer un fork del repositorio para que se pueda tener una copia personal del mismo.
+4. En el caso de que el cambio sea personal se recomienda hacer un fork del repositorio para que se pueda tener una copia personal del mismo.-->
 
-## Distribución del código fuente
+## Distribución del código fuente 
 
 El archivo main.py se encuentra dividido en 4 partes:
 
@@ -526,20 +530,11 @@ En el caso de que el problema no se encuentre en esta sección, se solicita cont
 Hay ocasiones en donde las coordenadas no funcionan, si este es el caso se debe hacer lo siguiente:
 
 1. Comprobar que no funcionan (intentando nuevamente y viendo cada clic que hace la herramienta).
-2. Si no funcionan se debe repetir el proceso de [Data.json](#datajson) y comprobar que las coordenadas estén bien configuradas.
+2. Si no funcionan se debe repetir el proceso de Antes de empezar para que se vuelvan a guardar las coordenadas.
 3. En el caso de que las coordenadas estén bien configuradas, se debe comprobar que el mouse no se mueva mientras se ejecuta la función, ya que esto puede afectar el funcionamiento de la herramienta.
 4. Si el problema persiste se debe contactar conmigo para poder solucionarlo.
 
 **Cambio de nombre de variables:** Es importante que si se modifica algún archivo o nombre que haga parte de la carpeta data sea inmediatamente modificado también en el archivo "data.json", ya que si no se hace esto se puede afectar el funcionamiento de la herramienta.
-
-
-**No existe dataframe:** En el caso de que no exista el dataframe de hoy o de la semana pasada, se debe hacer lo siguiente:
-
-1. Generar el dataframe del día de hoy si no se ha generado.
-2. Buscar en la carpeta de "dataframes", en la categoría que aplique (OPP o BL), el archivo que sea más cercano una semana atrás.
-3. Cambiar el nombre de dicho archivo por el que correspondría al de una semana atrás.
-4. Ejecutar la función de "Mostrar comparación" para que se pueda comparar el dataframe de hoy con el de la semana pasada.
-5. Si el problema persiste se debe contactar conmigo para poder solucionarlo.
 
 **El link no es correcto:** En el caso de que el link no sea correcto, se puede deber a que se haya actualizado salesforce o que se haya cambiado el nombre de la página. Para solucionar esto solamente basta con cambiar el link en el archivo "data.json" y probar si funciona correctamente.
 
@@ -576,7 +571,7 @@ Buscar esta línea y cambiar en "themename" por las funciones que aparecen en la
 
 **¿Cómo agrego más opciones?**
 
-Para agregar más opciones es necesario conocer ¿Qué es lo que quieres automatizar?, y ¿Cómo lo quieres automatizar?. Para saber esto puedes revisar el [Manual de automatización](), este te guiará paso a paso para definir la tarea que desees hacer.
+Para agregar más opciones es necesario conocer ¿Qué es lo que quieres automatizar?, y ¿Cómo lo quieres automatizar?. Para saber esto puedes revisar el [Manual de automatización](Manual_automatizacion_Automatigo.pdf), este te guiará paso a paso para definir la tarea que desees hacer.
 
 Cuando ya lo hayas leído y desees agregar más funciones, puedes dirigirte a [Distribución del código fuente](#distribución-del-código-fuente) para saber cómo se organiza el aplicativo y seguir dicho orden.
 
@@ -606,12 +601,7 @@ Accede a la opción en el apartado de "Opciones" que dice "Abrir carpeta de info
 
 ![Archivos plan de cuenta](img/archivosPC.png)
 
-**¿Cómo puedo ver comparaciones si no hice dataframe hace una semana?**
 
-Se puede con otro archivo .pkl que se haya creado días antes o después a hace una semana, lo único es cambiar el nombre para que quede correctamente en el código y se pueda comparar.
+<!-- # Licencia
 
-![Ejemplo de cómo se ven los dataframes](img/dataframes.png)
-
-# Licencia
-
-Este proyecto está bajo la licencia de MIT License, se puede utilizar para cualquier fin, pero se debe dar crédito al autor original (Ana Maria Riaño Caro). Para más información ver [LICENSE](LICENSE).
+Este proyecto está bajo la licencia de MIT License, se puede utilizar para cualquier fin, pero se debe dar crédito al autor original (Ana Maria Riaño Caro). Para más información ver [LICENSE](LICENSE). -->
